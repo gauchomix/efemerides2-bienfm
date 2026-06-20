@@ -1,0 +1,30 @@
+name: Actualizar Efemérides Diarias Bien FM
+
+on:
+  schedule:
+    # Corre todos los días a las 03:05 AM UTC (00:05 AM hora de Argentina)
+    - cron: '5 3 * * *'
+  workflow_dispatch: # Te permite ejecutarlo a mano cuando quieras probar
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Clonar el repositorio
+      uses: actions/checkout@v3
+
+    - name: Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Ejecutar script de efemérides
+      run: python generar_rss.py
+
+    - name: Confirmar cambios y subir al repositorio
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add efemerides_bienfm.xml
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Automatización: Efemérides del día actualizadas" && git push)
