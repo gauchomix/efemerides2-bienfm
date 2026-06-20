@@ -2,9 +2,9 @@ name: Actualizar Efemérides Diarias Bien FM
 
 on:
   schedule:
-    # Corre todos los días a las 03:05 AM UTC (00:05 AM hora de Argentina)
+    # Corre todos los días a las 00:05 AM hora de Argentina (03:05 AM UTC)
     - cron: '5 3 * * *'
-  workflow_dispatch: # Te permite ejecutarlo a mano cuando quieras probar
+  workflow_dispatch: # Permite correrlo a mano
 
 jobs:
   build:
@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Clonar el repositorio
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configurar Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.x'
+        python-version: '3.11'
 
     - name: Ejecutar script de efemérides
       run: python generar_rss.py
