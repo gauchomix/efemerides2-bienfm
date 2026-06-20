@@ -3,61 +3,68 @@ import datetime
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
-# ... (el resto de tu código igual)
-import datetime
-import xml.etree.ElementTree as ET
-from xml.dom import minidom
-
-# Importamos las efemérides actualizadas
 from datos_efemerides import EFEMERIDES_JUNIO
 
 def generar_feed():
     hoy = datetime.date.today()
     mes_actual = hoy.strftime("%m")
-    clave_fecha = hoy.strftime("%m-%d") # Ej: "06-21"
     
-    # Obtenemos la lista de efemérides del día (si no hay, creamos una lista vacía)
+    # IMPORTANTE: Forzamos "06-21" para que use las 10 efemérides de prueba que cargamos
+    clave_fecha = "06-21" 
+    
     lista_efemerides = []
     if mes_actual == "06":
         lista_efemerides = EFEMERIDES_JUNIO.get(clave_fecha, [])
         
-    # Si la lista está vacía por cualquier motivo, metemos contenido de respaldo
     if not lista_efemerides:
-        lista_efemerides = [
-            {"titulo": f"Efemérides del {hoy.strftime('%d/%m')} - Nota {i+1}", 
-             "contenido": "Sumate a la sintonía de Bien FM para compartir la mejor información y música de nuestra región durante toda la jornada."}
-            for i in range(5)
-        ]
+        print("⚠️ No hay efemérides cargadas para esta fecha.")
+        return
 
-    # Armamos la estructura del RSS
     rss = ET.Element("rss", version="2.0")
     channel = ET.SubElement(rss, "channel")
     
     ET.SubElement(channel, "title").text = "Efemérides Diarias Bien FM"
     ET.SubElement(channel, "link").text = "https://bienfm.com.ar"
-    ET.SubElement(channel, "description").text = "5 efemérides diarias automatizadas para el portal"
+    ET.SubElement(channel, "description").text = "10 efemérides diarias con diseño e imágenes para Bien FM"
     ET.SubElement(channel, "language").text = "es-ar"
     
-    # Recorremos las 5 efemérides del día y creamos un item para cada una
     for indice, efemeride in enumerate(lista_efemerides):
+        # Diseñamos el cuerpo de la noticia usando HTML limpio
+        descripcion_html = f"""<![CDATA[
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 10px; border: 1px solid #eee; border-radius: 8px;">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="{efemeride['imagen']}" alt="{efemeride['titulo']}" style="width: 100%; max-width: 550px; height: auto; border-radius: 6px; display: block; margin: 0 auto;" />
+            </div>
+            <span style="display: inline-block; background-color: #E3121A; color: #fff; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 3px; text-transform: uppercase; margin-bottom: 10px;">
+                {efemeride['categoria']}
+            </span>
+            <p style="font-size: 16px; font-weight: normal; margin: 0 0 10px 0;">
+                {efemeride['contenido']}
+            </p>
+            <hr style="border: 0; border-top: 1px dashed #ccc; margin-top: 15px;" />
+            <p style="font-size: 12px; color: #777; text-align: center; margin: 0;">Es un aporte de <b>Bien FM 106.3</b> - Viví tu radio.</p>
+        </div>
+        ]]>"""
+        
         item = ET.SubElement(channel, "item")
+        # El título de la nota en el portal será el título de la efeméride
         ET.SubElement(item, "title").text = efemeride["titulo"]
-        ET.SubElement(item, "description").text = efemeride["contenido"]
+        ET.SubElement(item, "description").text = descripcion_html.strip()
         ET.SubElement(item, "pubDate").text = hoy.strftime("%a, %d %b %Y 00:01:00 -0300")
-        # El guid tiene que ser único para cada una de las 5 notas para que Locucionar lea las 5 por separado
         ET.SubElement(item, "guid").text = f"efemeride-{clave_fecha}-{hoy.year}-nota-{indice+1}"
     
-    # Formatear el XML de manera limpia
     xml_str = ET.tostring(rss, encoding="utf-8")
     reparsed = minidom.parseString(xml_str)
     xml_bonito = reparsed.toprettyxml(indent="  ")
     
-    # Guardamos el archivo listo para que lo lea el servidor de la radio
+    # Reemplazo manual necesario para que Locucionar interprete el CDATA correctamente sin romper el XML
+    xml_bonito = xml_bonito.replace("&lt;![CDATA[", "<![CDATA[").replace("]]&gt;", "]]>")
+    
     nombre_archivo = "efemerides_bienfm.xml"
     with open(nombre_archivo, "w", encoding="utf-8") as f:
         f.write(xml_bonito)
         
-    print(f"✅ RSS generado con éxito. Se crearon {len(lista_efemerides)} noticias para el día {clave_fecha}.")
+    print(f"✅ RSS generado con {len(lista_efemerides)} notas de diseño.")
 
 if __name__ == "__main__":
     generar_feed()
