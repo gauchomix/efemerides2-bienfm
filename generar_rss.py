@@ -25,10 +25,10 @@ def generar_feed():
     
     ET.SubElement(channel, "title").text = "Efemérides Diarias Bien FM"
     ET.SubElement(channel, "link").text = "https://bienfm.com.ar"
-    ET.SubElement(channel, "description").text = "La nota única del día con las 10 efemérides juntas"
+    ET.SubElement(channel, "description").text = "La nota única del día vinculada a la sección Efemérides"
     ET.SubElement(channel, "language").text = "es-ar"
     
-    # 1. Armamos el cuerpo de la nota única juntando las 10 efemérides en texto HTML limpio
+    # Armamos el cuerpo de la nota única juntando las 10 efemérides en texto HTML limpio
     cuerpo_nota = '<div style="font-family: Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #333;">'
     cuerpo_nota += '<p>Repasamos los hechos más importantes de un día como hoy en la historia, la música y el deporte:</p><br>'
     
@@ -40,18 +40,21 @@ def generar_feed():
     cuerpo_nota += '<p style="font-size: 13px; color: #777; text-align: center;">Una producción exclusiva de <b>Bien FM 106.3</b></p>'
     cuerpo_nota += '</div>'
     
-    # 2. Creamos UN SOLO ITEM para todo el día
+    # Creamos el ITEM único para todo el día
     item = ET.SubElement(channel, "item")
     
-    # Título general de la única noticia que saldrá en portada
+    # Título de la noticia que saldrá en la sección
     ET.SubElement(item, "title").text = f"Efemérides del {hoy.strftime('%d/%m')}: Diez historias de un día como hoy"
     
-    # Metemos todo el choclo de las 10 efemérides juntas en la descripción
+    # Descripción con el listado completo
     ET.SubElement(item, "description").text = f"<![CDATA[{cuerpo_nota}]]>"
     ET.SubElement(item, "pubDate").text = hoy.strftime("%a, %d %b %Y 00:01:00 -0300")
-    ET.SubElement(item, "guid").text = f"efemerides-completas-{clave_fecha}-{hoy.year}"
+    ET.SubElement(item, "guid").text = f"efemerides-modulo-{clave_fecha}-{hoy.year}"
     
-    # Imagen de portada genérica para la nota del día (podés cambiarla por el logo de tu radio si preferís)
+    # 🌟 LA SOLUCIÓN: Le asignamos la categoría exacta para que Locucionar la mande a tu sección
+    ET.SubElement(item, "category").text = "Efemérides"
+    
+    # Imagen de portada genérica
     imagen_portada = "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&auto=format&fit=crop"
     ET.SubElement(item, "enclosure", url=imagen_portada, length="123456", type="image/jpeg")
     
@@ -65,7 +68,7 @@ def generar_feed():
     with open(nombre_archivo, "w", encoding="utf-8") as f:
         f.write(xml_bonito)
         
-    print(f"✅ RSS generado con éxito como nota única agrupada.")
+    print(f"✅ RSS generado con éxito asignado a la categoría 'Efemérides'.")
 
 if __name__ == "__main__":
     generar_feed()
