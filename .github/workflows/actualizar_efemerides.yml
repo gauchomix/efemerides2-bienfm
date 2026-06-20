@@ -2,14 +2,22 @@ name: Actualizar Efemérides Diarias Bien FM
 
 on:
   schedule:
-    # Corre todos los días a las 00:05 AM hora de Argentina (03:05 AM UTC)
-    - cron: '5 3 * * *'
+    - cron: '5 3 * * *' # Corre a la madrugada solo
   workflow_dispatch: # Permite correrlo a mano
+
+# Permisos necesarios para publicar en GitHub Pages
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - name: Clonar el repositorio
       uses: actions/checkout@v4
@@ -22,9 +30,14 @@ jobs:
     - name: Ejecutar script de efemérides
       run: python generar_rss.py
 
-    - name: Confirmar cambios y subir al repositorio
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add efemerides_bienfm.xml
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Automatización: Efemérides del día actualizadas" && git push)
+    - name: Configurar Pages
+      uses: actions/configure-pages@v4
+
+    - name: Subir artefacto de Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: '.' # Sube toda la carpeta raíz, incluyendo el index.html generado
+
+    - name: Publicar en GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
