@@ -1,3 +1,9 @@
+# -*- coding: utf-8 -*-
+import datetime
+import xml.etree.ElementTree as ET
+from xml.dom import minidom
+
+# ... (el resto de tu código igual)
 import datetime
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
