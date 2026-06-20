@@ -47,7 +47,7 @@ def generar_feed():
     # Mandamos el texto limpio de forma directa
     ET.SubElement(item, "description").text = cuerpo_texto
     ET.SubElement(item, "pubDate").text = hoy.strftime("%a, %d %b %Y 00:01:00 -0300")
-    ET.SubElement(item, "guid").text = f"efemerides-texto-{clave_fecha}-{hoy.year}"
+    ET.SubElement(item, "guid").text = f"efemerides-texto-{clave_fecha}-{hoy.year}-v2"
     
     # Categoría para que calce bajo tu barra turquesa
     ET.SubElement(item, "category").text = "Efemérides"
