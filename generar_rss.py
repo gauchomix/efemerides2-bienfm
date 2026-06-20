@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 import datetime
-import xml.etree.ElementTree as ET
-
 from datos_efemerides import EFEMERIDES_JUNIO
 
-def generar_feed():
-    # Forzamos la fecha en texto limpio e inglés estándar para evitar que Locucionar se maree
-    # Hoy es Sábado 20 de Junio de 2026
-    fecha_rfc = "Sat, 20 Jun 2026 00:01:00 -0300"
-    clave_fecha = "06-21" # Mantenemos tus 10 datos reales de prueba del 21
+def generar_widget():
+    hoy = datetime.date.today()
+    mes_actual = hoy.strftime("%m")
+    
+    # Dejamos fijo el "06-21" para usar tus 10 datos reales de prueba
+    clave_fecha = "06-21" 
     
     lista_efemerides = EFEMERIDES_JUNIO.get(clave_fecha, [])
     
@@ -16,41 +15,94 @@ def generar_feed():
         print("⚠️ No hay efemérides cargadas.")
         return
 
-    # Creamos el cuerpo juntando las 10 historias
-    cuerpo_texto = "Historias y efemérides de un día como hoy:\n\n"
-    for efemeride in lista_efemerides:
-        cuerpo_texto += f"- [{efemeride['categoria']}] {efemeride['titulo']}: {efemeride['contenido']}\n\n"
-    
-    cuerpo_texto += "Una producción de Bien FM 106.3"
+    # Creamos el diseño visual del Widget en HTML y CSS
+    html_content = f"""<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Efemérides Bien FM</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: #ffffff;
+            color: #333333;
+        }}
+        .widget-container {{
+            max-width: 100%;
+            margin: 0 auto;
+        }}
+        .efemeride-item {{
+            padding: 15px 0;
+            border-bottom: 1px dashed #e0e0e0;
+        }}
+        .efemeride-item:last-child {{
+            border-bottom: none;
+        }}
+        .categoria {{
+            display: inline-block;
+            background-color: #00ca99; /* El color verde turquesa de tu sección */
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }}
+        .titulo {{
+            font-size: 16px;
+            font-weight: bold;
+            color: #111111;
+            margin: 0 0 6px 0;
+        }}
+        .texto {{
+            font-size: 14.5px;
+            line-height: 1.5;
+            color: #444444;
+            margin: 0;
+        }}
+        .footer {{
+            text-align: center;
+            font-size: 12px;
+            color: #999999;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #eeeeee;
+        }}
+    </style>
+</head>
+<body>
+    <div class="widget-container">
+"""
 
-    # Construcción del XML sin caracteres ni funciones raras de formato
-    rss = ET.Element("rss", version="2.0")
-    channel = ET.SubElement(rss, "channel")
-    
-    ET.SubElement(channel, "title").text = "Efemerides Bien FM"
-    ET.SubElement(channel, "link").text = "https://bienfm.com.ar"
-    ET.SubElement(channel, "description").text = "Efemerides diarias"
-    ET.SubElement(channel, "language").text = "es-ar"
-    
-    item = ET.SubElement(channel, "item")
-    ET.SubElement(item, "title").text = "Efemerides Especiales de un dia como hoy"
-    ET.SubElement(item, "description").text = cuerpo_texto
-    ET.SubElement(item, "pubDate").text = fecha_rfc
-    # Cambiamos radicalmente el GUID para que el sistema lo tome como algo totalmente nuevo
-    ET.SubElement(item, "guid").text = "efemerides-sistema-nuevo-2026"
-    ET.SubElement(item, "category").text = "Efemérides"
-    ET.SubElement(item, "author").text = "contacto@bienfm.com.ar"
-    
-    # Imagen de portada estándar
-    imagen_portada = "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=800&auto=format&fit=crop"
-    ET.SubElement(item, "enclosure", url=imagen_portada, length="123456", type="image/jpeg")
-    
-    # Guardar plano sin minidom (algunos formateadores meten saltos invisibles que rompen a Locucionar)
-    tree = ET.ElementTree(rss)
-    nombre_archivo = "efemerides_bienfm.xml"
-    tree.write(nombre_archivo, encoding="utf-8", xml_declaration=True)
+    # Inyectamos las 10 efemérides dentro del diseño
+    for efemeride in lista_efemerides:
+        html_content += f"""
+        <div class="efemeride-item">
+            <span class="categoria">{efemeride['categoria']}</span>
+            <h3 class="titulo">{efemeride['titulo']}</h3>
+            <p class="texto">{efemeride['contenido']}</p>
+        </div>
+        """
+
+    html_content += f"""
+        <div class="footer">
+            Efemérides del {hoy.strftime('%d/%m')} • Una producción de <b>Bien FM 106.3</b>
+        </div>
+    </div>
+</body>
+</html>
+"""
+
+    # Guardamos el archivo como una página web fija que leerá el widget
+    nombre_archivo = "index.html"
+    with open(nombre_archivo, "w", encoding="utf-8") as f:
+        f.write(html_content)
         
-    print("✅ RSS estándar e internacional generado.")
+    print("✅ Widget HTML generado con éxito bajo el nombre 'index.html'.")
 
 if __name__ == "__main__":
-    generar_feed()
+    generar_widget():
