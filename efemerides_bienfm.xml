@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<rss version="2.0">
+  <channel>
+    <title>Efemérides Diarias Bien FM</title>
+    <link>https://bienfm.com.ar</link>
+    <description>5 efemérides diarias automatizadas para el portal</description>
+    <language>es-ar</language>
+    <item>
+      <title>Efemérides del 20/06 - Nota 1</title>
+      <description>Sumate a la sintonía de Bien FM para compartir la mejor información y música de nuestra región durante toda la jornada.</description>
+      <pubDate>Sat, 20 Jun 2026 00:01:00 -0300</pubDate>
+      <guid>efemeride-06-20-2026-nota-1</guid>
+    </item>
+    <item>
+      <title>Efemérides del 20/06 - Nota 2</title>
+      <description>Sumate a la sintonía de Bien FM para compartir la mejor información y música de nuestra región durante toda la jornada.</description>
+      <pubDate>Sat, 20 Jun 2026 00:01:00 -0300</pubDate>
+      <guid>efemeride-06-20-2026-nota-2</guid>
+    </item>
+    <item>
+      <title>Efemérides del 20/06 - Nota 3</title>
+      <description>Sumate a la sintonía de Bien FM para compartir la mejor información y música de nuestra región durante toda la jornada.</description>
+      <pubDate>Sat, 20 Jun 2026 00:01:00 -0300</pubDate>
+      <guid>efemeride-06-20-2026-nota-3</guid>
+    </item>
+    <item>
+      <title>Efemérides del 20/06 - Nota 4</title>
+      <description>Sumate a la sintonía de Bien FM para compartir la mejor información y música de nuestra región durante toda la jornada.</description>
+      <pubDate>Sat, 20 Jun 2026 00:01:00 -0300</pubDate>
+      <guid>efemeride-06-20-2026-nota-4</guid>
+    </item>
+    <item>
+      <title>Efemérides del 20/06 - Nota 5</title>
+      <description>Sumate a la sintonía de Bien FM para compartir la mejor información y música de nuestra región durante toda la jornada.</description>
+      <pubDate>Sat, 20 Jun 2026 00:01:00 -0300</pubDate>
+      <guid>efemeride-06-20-2026-nota-5</guid>
+    </item>
+  </channel>
+</rss>
