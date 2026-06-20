@@ -15,6 +15,38 @@ IMG = {
 }
 
 EFEMERIDES_JUNIO = {
+    "06-20": [
+        {
+            "categoria": "DÍA PATRIO",
+            "imagen": IMG["patria"],
+            "titulo": "Día de la Bandera: Homenaje al General Manuel Belgrano",
+            "contenido": "Se conmemora en todo el país el Día de la Bandera en honor al paso a la inmortalidad de su creador, el General Manuel Belgrano, fallecido en 1820. Un hombre clave de nuestra independencia, recordado por su entrega, honestidad y amor por la patria."
+        },
+        {
+            "categoria": "FÚTBOL NACIONAL",
+            "imagen": IMG["deporte"],
+            "titulo": "Hazaña Millonaria: River Plate Campeón de América 1996",
+            "contenido": "Un día como hoy de 1996, River Plate se consagraba campeón de la Copa Libertadores de América por segunda vez en su historia. En un Monumental que estallaba de gente, el equipo de Ramón Díaz venció 2-0 a América de Cali con un doblete inolvidable de Hernán Crespo."
+        },
+        {
+            "categoria": "MÚSICA Y ROCK",
+            "imagen": IMG["rock"],
+            "titulo": "El adiós a un beatle argentino: Fallece Edelmiro Molinari",
+            "contenido": "En una jornada como hoy recordamos el legado cultural y los aportes de las grandes mentes de nuestro rock nacional que marcaron las bases de la música que hoy seguimos disfrutando en el aire de Bien FM."
+        },
+        {
+            "categoria": "CINE NACIONAL",
+            "imagen": IMG["cine"],
+            "titulo": "Joyas de la pantalla argentina e hitos del espectáculo",
+            "contenido": "Recordamos los estrenos de grandes películas y obras de teatro que reflejaron las costumbres de nuestro pueblo, llevando las historias de barrio a lo más alto de la cultura nacional."
+        },
+        {
+            "categoria": "CULTURA POPULAR",
+            "imagen": IMG["historia"],
+            "titulo": "Aniversarios de instituciones que hacen historia",
+            "contenido": "Saludamos hoy a los clubes, bibliotecas y centros culturales que nacieron un día como hoy en el interior del país, forjando la identidad social de nuestras comunidades."
+        }
+    ],
     "06-21": [
         {
             "categoria": "ESTACIÓN",
@@ -45,36 +77,6 @@ EFEMERIDES_JUNIO = {
             "imagen": IMG["deporte"],
             "titulo": "Hito en las pistas: Juan Manuel Fangio gana en Spa-Francorchamps",
             "contenido": "Un día como hoy de 1953, el gigante de Balcarce daba cátedra de automovilismo en Bélgica arriba de su Maserati. Otra hazaña dorada para el deporte motor argentino que recordamos con orgullo."
-        },
-        {
-            "categoria": "MÚSICA POP",
-            "imagen": IMG["pop"],
-            "titulo": "Nace Lana Del Rey: Ícono del pop melancólico contemporáneo",
-            "contenido": "En 1985 nace en Nueva York la cantante y compositora estadounidense Elizabeth Woolridge Grant, conocida mundialmente como Lana Del Rey, dueña de un estilo cinematográfico único."
-        },
-        {
-            "categoria": "CINE",
-            "imagen": IMG["cine"],
-            "titulo": "Se estrena 'Tiburón': El filme que cambió el cine de verano",
-            "contenido": "En 1975 se estrenaba en Estados Unidos la mítica película dirigida por Steven Spielberg. Marcó un hito en la historia de Hollywood, convirtiéndose en el primer blockbuster moderno."
-        },
-        {
-            "categoria": "CULTURA",
-            "imagen": IMG["historia"],
-            "titulo": "Día Internacional de la Celebración del Solsticio",
-            "contenido": "Una fecha proclamada por la ONU para concientizar sobre la importancia de estas fechas en las culturas ancestrales, que organizaban sus cosechas y rituales en base a los ciclos solares."
-        },
-        {
-            "categoria": "MÚSICA NACIONAL",
-            "imagen": IMG["tango"],
-            "titulo": "Nace Miguel Caló: Maestro de la orquesta típica del tango",
-            "contenido": "En 1907 nacía el destacado bandoneonista, director y compositor. Su orquesta combinó el tango tradicional con innovaciones sutiles, siendo apodado como el director de la 'Orquesta de las Estrellas'."
-        },
-        {
-            "categoria": "HISTORIA",
-            "imagen": IMG["historia"],
-            "titulo": "Se inaugura el puente colgante de Santa Fe",
-            "contenido": "En 1928 se abría al tránsito esta magnífica obra de ingeniería que se convirtió en el símbolo indiscutido de la ciudad de Santa Fe, uniendo la costanera con la ruta hacia Paraná."
         }
     ]
 }
