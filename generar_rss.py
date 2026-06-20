@@ -1,21 +1,41 @@
 # -*- coding: utf-8 -*-
 import datetime
+
+# Importamos las efemérides del archivo de datos
 from datos_efemerides import EFEMERIDES_JUNIO
 
 def generar_widget():
+    # 1. Obtener la fecha real de hoy de forma automática
     hoy = datetime.date.today()
     mes_actual = hoy.strftime("%m")
+    clave_fecha = hoy.strftime("%m-%d") # Ej: "06-20"
     
-    # Dejamos fijo el "06-21" para usar tus 10 datos reales de prueba
-    clave_fecha = "06-21" 
-    
-    lista_efemerides = EFEMERIDES_JUNIO.get(clave_fecha, [])
-    
-    if not lista_efemerides:
-        print("⚠️ No hay efemérides cargadas.")
-        return
+    # Formatear la fecha en castellano para el título del widget
+    meses = {
+        "01": "Enero", "02": "Febrero", "03": "Marzo", "04": "Abril", 
+        "05": "Mayo", "06": "Junio", "07": "Julio", "08": "Agosto", 
+        "09": "Septiembre", "10": "Octubre", "11": "Noviembre", "12": "Diciembre"
+    }
+    nombre_mes = meses.get(mes_actual, "")
+    texto_fecha_hoy = f"{hoy.day} de {nombre_mes}"
 
-    # Creamos el diseño visual del Widget en HTML y CSS
+    # 2. Buscar las efemérides del día real en la base de datos
+    lista_efemerides = []
+    if mes_actual == "06":
+        lista_efemerides = EFEMERIDES_JUNIO.get(clave_fecha, [])
+
+    # Si por alguna razón la lista está vacía (ej: un día que falte cargar), 
+    # le metemos un texto elegante de respaldo para que no quede en blanco
+    if not lista_efemerides:
+        lista_efemerides = [
+            {
+                "categoria": "MÚSICA Y CULTURA",
+                "titulo": f"Efemérides especiales del {texto_fecha_hoy}",
+                "contenido": "Una jornada ideal para repasar los grandes hitos de nuestra historia popular y disfrutar la mejor compañía musical en el aire de la radio."
+            }
+        ]
+
+    # 3. Diseño visual del Widget (HTML + CSS)
     html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -34,8 +54,18 @@ def generar_widget():
             max-width: 100%;
             margin: 0 auto;
         }}
+        .encabezado-widget {{
+            font-size: 18px;
+            font-weight: bold;
+            color: #111111;
+            border-bottom: 2px solid #00ca99;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
         .efemeride-item {{
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px dashed #e0e0e0;
         }}
         .efemeride-item:last-child {{
@@ -43,42 +73,43 @@ def generar_widget():
         }}
         .categoria {{
             display: inline-block;
-            background-color: #00ca99; /* El color verde turquesa de tu sección */
+            background-color: #00ca99; /* Verde turquesa de tu portal */
             color: #ffffff;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
-            padding: 3px 8px;
-            border-radius: 4px;
+            padding: 2px 6px;
+            border-radius: 3px;
             text-transform: uppercase;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }}
         .titulo {{
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             color: #111111;
-            margin: 0 0 6px 0;
+            margin: 0 0 5px 0;
         }}
         .texto {{
-            font-size: 14.5px;
-            line-height: 1.5;
+            font-size: 13.5px;
+            line-height: 1.45;
             color: #444444;
             margin: 0;
         }}
         .footer {{
             text-align: center;
-            font-size: 12px;
-            color: #999999;
-            margin-top: 20px;
-            padding-top: 10px;
+            font-size: 11px;
+            color: #888888;
+            margin-top: 15px;
+            padding-top: 8px;
             border-top: 1px solid #eeeeee;
         }}
     </style>
 </head>
 <body>
     <div class="widget-container">
+        <div class="encabezado-widget">📅 Efemérides de Hoy {texto_fecha_hoy}</div>
 """
 
-    # Inyectamos las 10 efemérides dentro del diseño
+    # Inyectar las efemérides del día
     for efemeride in lista_efemerides:
         html_content += f"""
         <div class="efemeride-item">
@@ -88,21 +119,21 @@ def generar_widget():
         </div>
         """
 
+    # PIE DE PÁGINA CORREGIDO CON LA FRECUENCIA 92.7
     html_content += f"""
         <div class="footer">
-            Efemérides del {hoy.strftime('%d/%m')} • Una producción de <b>Bien FM 106.3</b>
+            Una producción exclusiva de <b>Bien FM 92.7</b> • Viví tu radio
         </div>
     </div>
 </body>
 </html>
 """
 
-    # Guardamos el archivo como una página web fija que leerá el widget
-    nombre_archivo = "index.html"
-    with open(nombre_archivo, "w", encoding="utf-8") as f:
+    # Guardar el archivo index.html para la web
+    with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
         
-    print("✅ Widget HTML generado con éxito bajo el nombre 'index.html'.")
+    print(f"✅ Widget actualizado con fecha dinámica ({texto_fecha_hoy}) y frecuencia 92.7.")
 
 if __name__ == "__main__":
     generar_widget()
