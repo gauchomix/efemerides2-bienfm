@@ -105,4 +105,4 @@ def generar_widget():
     print("✅ Widget HTML generado con éxito bajo el nombre 'index.html'.")
 
 if __name__ == "__main__":
-    generar_widget():
+    generar_widget()
