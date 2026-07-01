@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 import datetime
-from datos_efemerides import EFEMERIDES_JUNIO
+
+# Importamos las efemérides del archivo de datos
+try:
+    from datos_efemerides import EFEMERIDES_JULIO
+except ImportError:
+    EFEMERIDES_JULIO = {}
 
 def generar_widget():
     hoy = datetime.date.today()
     mes_actual = hoy.strftime("%m")
-    clave_fecha = hoy.strftime("%m-%d") # Ej: "06-20"
+    clave_fecha = hoy.strftime("%m-%d") # Ej: "07-01"
     
     # Días de la semana en español
     dias_semana = {
@@ -21,14 +26,14 @@ def generar_widget():
     }
     nombre_mes = meses.get(mes_actual, "")
 
-    lista_efemerides = []
-    if mes_actual == "06":
-        lista_efemerides = EFEMERIDES_JUNIO.get(clave_fecha, [])
+    # Buscamos en el bloque de Julio
+    lista_efemerides = EFEMERIDES_JULIO.get(clave_fecha, [])
 
+    # Texto de respaldo elegante si el día está vacío
     if not lista_efemerides:
         lista_efemerides = [{"ano": hoy.strftime("%Y"), "contenido": "Sintonizá la mañana de la radio para repasar los grandes hitos de la historia y disfrutar la mejor compañía musical en el aire de Bien FM."}]
 
-    # DISEÑO RETRO DE AGENDA BASADO EN TU IMAGEN
+    # DISEÑO RETRO DE AGENDA
     html_content = f"""<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -40,7 +45,7 @@ def generar_widget():
             font-family: 'Georgia', 'Times New Roman', serif;
             margin: 0;
             padding: 15px;
-            background-color: #f4ebd9; /* Fondo color crema suave */
+            background-color: #f4ebd9;
             color: #2b2b2b;
         }}
         .widget-container {{
@@ -64,7 +69,7 @@ def generar_widget():
             margin-bottom: 25px;
         }}
         .date-badge {{
-            background-color: #e6533c; /* Recuadro rojo de fecha */
+            background-color: #e6533c;
             color: #ffffff;
             padding: 10px 15px;
             border-radius: 6px;
@@ -116,7 +121,7 @@ def generar_widget():
             margin-bottom: 0;
         }}
         .ano-box {{
-            background-color: #e6dec9; /* Fondo gris/beige claro del año */
+            background-color: #e6dec9;
             color: #2b2b2b;
             font-family: Arial, sans-serif;
             font-weight: bold;
@@ -159,8 +164,7 @@ def generar_widget():
                 <span>{nombre_dia_semana}</span>
             </div>
         </div>
-
-        """
+"""
 
     for item in lista_efemerides:
         html_content += f"""
@@ -182,7 +186,7 @@ def generar_widget():
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(html_content)
         
-    print("✅ Widget estilo Agenda Vintage (5 efemérides por día) generado con éxito.")
+    print("✅ Widget de Julio generado con éxito.")
 
 if __name__ == "__main__":
     generar_widget()
